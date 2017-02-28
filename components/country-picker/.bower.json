@@ -1,0 +1,31 @@
+{
+  "name": "country-picker",
+  "description": "An element to select country code/dial code.",
+  "main": "country-picker.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "iron-list": "PolymerElements/iron-list#^1.4.1",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "paper-item": "PolymerElements/paper-item#^1.2.1",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.1.0",
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^1.1.5",
+    "paper-input": "PolymerElements/paper-input#^1.1.23"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "homepage": "https://github.com/anandAbhi/country-picker",
+  "_release": "92d611724e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "92d611724eb9ace6b24f26b2e8cc36b7d6aea9ee"
+  },
+  "_source": "https://github.com/anandAbhi/country-picker.git",
+  "_target": "master",
+  "_originalSource": "anandAbhi/country-picker",
+  "_direct": true
+}

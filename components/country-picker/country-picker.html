@@ -1,0 +1,130 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../paper-input/paper-input.html">
+
+<!--
+`country-picker`
+An element to select country code/dial code.
+
+@demo demo/index.html 
+-->
+
+<dom-module id="country-picker">
+    <template>
+        <style>
+            :host {
+                display: flex;
+                flex-direction: column;
+            }
+
+            iron-list {
+                flex: 1 1 auto;
+                width: 70vw;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            iron-icon {
+                color: hsl(0, 0%, 50%);
+                margin-right: 12px;
+            }
+
+            .dial-code {
+                position: absolute;
+                right: 16px;
+            }
+        </style>
+        <paper-dialog id="dialog">
+            <paper-input type="search"
+                         label="Search country"
+                         on-input="_query"
+                         value="{{_searchTerm}}">
+                <iron-icon icon="search" prefix></iron-icon>
+            </paper-input>
+
+            <paper-dialog-scrollable>
+                <iron-ajax url="countries.json" auto on-response="_handleResponse"></iron-ajax>
+                <iron-list items="[[_filteredData]]" as="item">
+                    <template is="dom-bind">
+                        <div>
+                            <paper-item on-tap="_onItemSelected">
+                                <paper-item-body>
+                                    <div>[[item.name]] [[item.code]]</div>
+                                </paper-item-body>
+                                <paper-item-body class="dial-code">
+                                    <span style="color: #2196f3">[[item.dialCode]]</span>
+                                </paper-item-body>
+                            </paper-item>
+                        </div>
+                    </template>
+                </iron-list>
+            </paper-dialog-scrollable>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'country-picker',
+
+            properties: {
+                _searchTerm: {
+                    type: String,
+                    value: ''
+                },
+                _allData: {
+                    type: Array,
+                    value: []
+                },
+                _filteredData: {
+                    type: Array,
+                    value: []
+                },
+                /**
+                 * Selected country
+                 * @type {{name: String, code: String, dialCode: String}}
+                 */
+                country: {
+                    type: Object,
+                    value: {},
+                    notify: true
+                }
+            },
+
+            _onItemSelected: function (e) {
+                this.country = e.model.get('item');
+                this.$.dialog.close();
+            },
+
+            _handleResponse: function (data) {
+                this._allData = data.detail.response;
+                this._filteredData = data.detail.response;
+            },
+
+            _query: function (e) {
+                this._filteredData = this._filterData(this._allData, this._searchTerm);
+            },
+
+            _filterData: function (items, searchTerm) {
+                if (searchTerm == '') {
+                    return items;
+                }
+
+                return items.filter(function (item) {
+                    return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+                });
+            },
+
+            /**
+             * Opens the country picker dialog
+             */
+            open: function () {
+                this.$.dialog.open();
+            }
+        });
+    </script>
+</dom-module>
